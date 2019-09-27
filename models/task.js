@@ -1,19 +1,27 @@
-'use strict';
+const uuid = require('uuid')
+
 module.exports = (sequelize, DataTypes) => {
   const Task = sequelize.define('Task', {
     id: {
-      allowNull: false,
-      autoIncrement: true,
       primaryKey: true,
-      type: DataTypes.INTEGER
+      defaultValue: uuid,
+      type: DataTypes.UUID
+    },
+    authorId: {
+      allowNull: false,
+      type: DataTypes.UUID
+    },
+    title: {
+      allowNull: false,
+      type: DataTypes.STRING
     },
     description: {
       allowNull: false,
-      type: DataTypes.STRING
+      type: DataTypes.STRING(1000)
     },
     isCompleted: {
       defaultValue: false,
-      type: DataTypes.STRING
+      type: DataTypes.BOOLEAN
     },
     createdAt: {
       allowNull: false,
@@ -25,8 +33,11 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {});
 
-  Task.associate = function(models) {
-    // associations can be defined here
+  Task.associate = function({ User }) {
+    Task.belongsTo(User, {
+      foreignKey: 'authorId',
+      as: 'author'
+    })
   };
 
   return Task;

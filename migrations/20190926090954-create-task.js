@@ -1,19 +1,27 @@
-'use strict';
+const uuid = require('uuid')
+
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('Tasks', {
       id: {
-        allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        defaultValue: uuid,
+        type: Sequelize.UUID
+      },
+      authorId: {
+        allowNull: false,
+        type: Sequelize.UUID
+      },
+      title: {
+        allowNull: false,
+        type: Sequelize.STRING
       },
       description: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING(1000)
       },
       isCompleted: {
-        type: Sequelize.STRING
+        type: Sequelize.BOOLEAN
       },
       createdAt: {
         allowNull: false,

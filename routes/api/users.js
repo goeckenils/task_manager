@@ -40,7 +40,6 @@ router.delete('/:id', async (req, res) => {
         if(user){
             return res.status(200).send('User deleted')
         }
-        return res.json(user, 'User deleted' )
     
     } catch(e) {
         return res.status(400).send(e)
